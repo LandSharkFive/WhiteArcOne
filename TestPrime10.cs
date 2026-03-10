@@ -18,7 +18,8 @@ namespace UnitTestTen
             if (File.Exists(path)) return;
 
             // 2. Generate primes.
-            Util.WritePrimesToFile(path);
+            const int MaxPrime = 104729;
+            Util.WritePrimesToFile(path, MaxPrime);
 
             // 3. Assert,
             Assert.IsTrue(File.Exists(path), "File should exist.");
@@ -29,16 +30,11 @@ namespace UnitTestTen
 
             // 5. Check the prime numbers (first 10 primes).
             string[] lines = File.ReadLines(path).Take(10).ToArray();
-            Assert.AreEqual("1, 2", lines[0]);
-            Assert.AreEqual("2, 3", lines[1]);
-            Assert.AreEqual("3, 5", lines[2]);
-            Assert.AreEqual("4, 7", lines[3]);
-            Assert.AreEqual("5, 11", lines[4]);
-            Assert.AreEqual("6, 13", lines[5]);
-            Assert.AreEqual("7, 17", lines[6]);
-            Assert.AreEqual("8, 19", lines[7]);
-            Assert.AreEqual("9, 23", lines[8]);
-            Assert.AreEqual("10, 29", lines[9]);
+            string[] expectedPrimes = {
+                "1, 2", "2, 3", "3, 5", "4, 7", "5, 11",
+                "6, 13", "7, 17", "8, 19", "9, 23", "10, 29"
+            };
+            CollectionAssert.AreEqual(expectedPrimes, lines, "The primes should match.");
         }
 
 
@@ -54,28 +50,11 @@ namespace UnitTestTen
             }
 
             Random rnd = new Random();
-            string myPath = TestHelper.GetTempDb();  
+            string myPath = TestHelper.GetTempDb();
             File.Delete(myPath);
 
             // 1. Generate sorted data
-            List<Element> data = new List<Element>();
-
-            string primePath = "prime.txt";
-
-            int lineNo = 0;
-            foreach (string line in File.ReadLines(primePath))
-            {
-                lineNo++;
-                if (lineNo > count) break;
-
-                string[] part = line.Split(',');
-                if (part.Length >= 2)
-                {
-                    int id = int.Parse(part[0]);
-                    int prime = int.Parse(part[1]);
-                    data.Add(new Element(id, prime));
-                }
-            }
+            var data = TestHelper.GetPrimeTestData(count); 
 
             // 2. Run Bulk Loader.  Default Capacity (80%).
             var builder = new TreeBuilder(order);
@@ -141,6 +120,7 @@ namespace UnitTestTen
             }
             File.Delete(myPath);
         }
+
 
     }
 }

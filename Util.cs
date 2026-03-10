@@ -113,34 +113,38 @@ namespace ArcOne
         }
 
         /// <summary>
-        /// Enumerate prime numbers up to a maximum value.  
+        /// Generates an enumerate of prime numbers up to a specified maximum.
         /// </summary>
         public static IEnumerable<int> GetPrimes(int max)
         {
-            if (max < 0) throw new ArgumentOutOfRangeException(nameof(max));
+            if (max < 0) yield break; // No primes for negative numbers
+            const int MaxAllowed = 1000000;
+            if (max > MaxAllowed) 
+                throw new ArgumentOutOfRangeException(nameof(max), $"Must be less than {MaxAllowed}.");
 
-            var primes = new BitArray(max + 1, true); // Initialize all to true
+            var isPrime = new BitArray(max + 1, true); // Initialize all to true
 
             // 0 and 1 are not primes
-            if (max >= 0) primes[0] = false;
-            if (max >= 1) primes[1] = false;
+            isPrime[0] = false;
+            isPrime[1] = false;
 
             // Sieve logic: for each number starting from 2
-            for (var i = 2; i * i <= max; i++)
+            int limit = (int)Math.Sqrt(max);
+            for (var i = 2; i <= limit; i++)
             {
-                if (!primes[i]) continue; // Skip if already marked as composite
+                if (!isPrime[i]) continue; // Skip if already marked as composite
 
                 // Mark all multiples of i (starting from i*i) as composite
                 for (var j = i * i; j <= max; j += i)
                 {
-                    primes[j] = false;
+                    isPrime[j] = false;
                 }
             }
 
             // Yield all numbers still marked as prime
             for (var i = 2; i <= max; i++)
             {
-                if (primes[i]) yield return i;
+                if (isPrime[i]) yield return i;
             }
         }
 
@@ -149,25 +153,28 @@ namespace ArcOne
         /// </summary>
         public static List<int> GetPrimesList(int max)
         {
-            return GetPrimes(max).ToList();
+            var results = new List<int>();
+            foreach (var p in GetPrimes(max))
+            {
+                results.Add(p);
+            }
+            return results;
         }
 
         /// <summary>
         /// Write prime numbers to a text file.
         /// </summary>
-        public static void WritePrimesToFile(string path)
+        public static void WritePrimesToFile(string path, int max)
         {
-            const int MaxPrime = 104729; 
-            var list = GetPrimesList(MaxPrime);
-
             File.Delete(path);
-            using (StreamWriter sw = new StreamWriter(path, false))
+            using (var writer = new StreamWriter(path))
             {
-                int lineNo = 0;
-                foreach (int prime in list)
+                int index = 1;
+                foreach (var prime in GetPrimes(max))
                 {
-                    ++lineNo;
-                    sw.WriteLine($"{lineNo}, {prime}");
+                    // Write strings.
+                    writer.WriteLine($"{index}, {prime}");
+                    index++;
                 }
             }
         }
@@ -178,6 +185,7 @@ namespace ArcOne
                return new FileInfo(path).Length;
             return 0;
         }
+
 
     }
 }

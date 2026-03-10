@@ -32,6 +32,31 @@ namespace UnitTestOne
             }
         }
 
+        // <summary>
+        /// Loads a specific number of prime elements from the persistent test file.
+        /// </summary>
+        public static List<Element> GetPrimeTestData(int count)
+        {
+            List<Element> list = new List<Element>(count);
+            string primePath = "prime.txt";
+            foreach (string line in File.ReadLines(primePath))
+            {
+                // 2. Stop as soon as we have what we needed.
+                if (list.Count >= count) break;
+
+                string[] part = line.Split(',');
+                if (part.Length >= 2)
+                {
+                    int.TryParse(part[0], out int id);
+                    int.TryParse(part[1], out int prime);
+                    if (id > 0 && prime > 0)
+                        list.Add(new Element(id, prime));
+                }
+            }
+            return list;
+        }
+
+
 
     }
 }

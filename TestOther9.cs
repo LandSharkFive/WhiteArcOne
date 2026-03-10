@@ -30,28 +30,43 @@ namespace UnitTestNine
             // 1. Clear the fake disk before starting.
             FakeDisk.Clear();
 
+            // 1. Setup Tree Hierarchy:
+            //        [20] (ID:1)
+            //       /    \
+            // [5,10](ID:2) [40] (ID:3)
+            //             /    \
+            //      [25,30](ID:4) [40,50](ID:5)
+
             // 2. Setup tree.
             var root = new BNode(4, false).WithId(1).WithKeys(20).WithChildren(2, 3);
-            var internalNode = new BNode(4, false).WithId(3).WithKeys(40).WithChildren(4, 5);  
-            var leafNode = new BNode(4, true).WithId(5).WithKeys(40, 50); 
+            var leafA = new BNode(4, true).WithId(2).WithKeys(5, 10);
+            var internalB = new BNode(4, false).WithId(3).WithKeys(40).WithChildren(4, 5);
+            var leafC = new BNode(4, true).WithId(4).WithKeys(25, 30);
+            var leafD = new BNode(4, true).WithId(5).WithKeys(40, 50); 
 
             // 3. Mock DiskRead behavior.
-            MockDiskWrite(1, root);
-            MockDiskWrite(3, internalNode);
-            MockDiskWrite(5, leafNode);
+            MockDiskWrite(root.Id, root);
+            MockDiskWrite(leafA.Id, leafA);
+            MockDiskWrite(internalB.Id, internalB);
+            MockDiskWrite(leafC.Id, leafC);
+            MockDiskWrite(leafD.Id, leafD);
 
-            // 4. Search for key 45
+            // 4. Search for key 45 from root.
             // 45 is > 20 (goes to ID 3) and > 40 (goes to ID 5)
             BNode result = FindLeaf(1, 45);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Leaf);
             Assert.AreEqual(5, result.Id);
 
-            // 5. Search for key 5.
+            // 5. Search for key 45 from leaf.
             result = FindLeaf(5, 45);
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Leaf);
             Assert.AreEqual(5, result.Id);
+
+            // 7. Search for 7.
+            result = FindLeaf(1, 7);
+            Assert.AreEqual(2, result.Id);
         }
 
 
