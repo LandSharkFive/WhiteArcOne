@@ -87,48 +87,6 @@ namespace ArcOne
             }
         }
 
-        //public void RemoveKeyAndChildAt(int pos)
-        //{
-        //    // 1. Shift Keys to the left
-        //    for (int i = pos; i < Keys.Length - 1; i++)
-        //    {
-        //        Keys[i] = Keys[i + 1];
-        //    }
-
-        //    // 2. Shift Children to the left 
-        //    // When merging, we typically remove the right-hand child after its keys 
-        //    // have been moved to the left sibling.
-        //    for (int i = pos + 1; i < Kids.Length - 1; i++)
-        //    {
-        //        Kids[i] = Kids[i + 1];
-        //    }
-
-        //    // 3. Decrement the logical count
-        //    NumKeys--;
-
-        //    // 4. THE NUCLEAR WIPE
-        //    // Overwrites unused slots with defaults to prevent "Ghost Data" from persisting 
-        //    // in the binary file.
-
-        //    // Wipe unused Key slots
-        //    for (int i = NumKeys; i < Keys.Length; i++)
-        //    {
-        //        Keys[i] = new Element { Key = -1, Data = -1 };
-        //    }
-
-        //    // Wipe unused Child pointers. 
-        //    // For leaves, all 'Kids' pointers are wiped as they use NextLeafId for linking instead.
-        //    int startWipingKids = Leaf ? 0 : NumKeys + 1;
-        //    for (int i = startWipingKids; i < Kids.Length; i++)
-        //    {
-        //        Kids[i] = -1;
-        //    }
-        //}
-
-        /// <summary>
-        /// Returns a string representation of the node's state, used for 
-        /// debugging the B+ Tree structure and verifying logical contents.
-        /// </summary>
         public override string ToString()
         {
             string keysStr = string.Join(" ", Keys.Take(NumKeys).Select(k => k.Key));
@@ -241,26 +199,26 @@ namespace ArcOne
             return true;
         }
 
-        /// <summary>
-        /// Validates node integrity and throws an exception if corruption or logic errors are found.
-        /// </summary>
-        public void ValidateAndThrow()
+        public BNode WithId(int id)
         {
-            if (NumKeys < 0 || NumKeys > Order)
-            {
-                throw new ArgumentException($"Invalid number of keys: {NumKeys}");
-            }
-
-            if (!Leaf)
-            {
-                for (int i = 0; i <= NumKeys; i++)
-                {
-                    if (Kids[i] < 0)
-                    {
-                        throw new Exception($"Internal node {Id} is missing a required child pointer at index {i}.");
-                    }
-                }
-            }
+            this.Id = id;
+            return this;
         }
+
+        public BNode WithKeys(params int[] keys)
+        {
+            this.NumKeys = keys.Length;
+            for (int i = 0; i < keys.Length; i++)
+                this.Keys[i] = new Element(keys[i], keys[i]);
+            return this;
+        }
+
+        public BNode WithChildren(params int[] childIds)
+        {
+            Array.Copy(childIds, this.Kids, childIds.Length);
+            return this;
+        }
+
+
     }
 }

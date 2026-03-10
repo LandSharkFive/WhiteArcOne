@@ -15,6 +15,23 @@ namespace UnitTestOne
             return Path.ChangeExtension(Path.GetRandomFileName(), "db");
         }
 
+        /// <summary>
+        /// Check node constraints.
+        /// </summary>
+        public void CheckNode(BNode node)
+        {
+            Assert.IsTrue(node.NumKeys >= 0, "NumKeys must be greater than or equal to zero.");
+            Assert.IsTrue(node.NumKeys <= node.Order, "NumKeys must be less than or equal to Order.");
+
+            if (!node.Leaf)
+            {
+                for (int i = 0; i <= node.NumKeys; i++)
+                {
+                    Assert.IsTrue(node.Kids[i] >= 0, "Child pointer must be greater than or equal to zero.");
+                }
+            }
+        }
+
 
     }
 }

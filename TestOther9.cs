@@ -19,41 +19,28 @@ namespace UnitTestNine
         private BNode MockDiskRead(int id)
         {
             if (FakeDisk.ContainsKey(id)) return FakeDisk[id];
-            throw new System.Exception($"Node {id} not found on fake disk.");
+            throw new System.Exception($"Node {id} not found.");
         }
 
 
 
         [TestMethod]
-        public void FindLeafInMultiLevelTree()
+        public void FindLeafInThreeLevelTree()
         {
+            // 1. Clear the fake disk before starting.
             FakeDisk.Clear();
 
-            // 1. Setup: Create a tree structure
-            // Root Node (Internal)
-            var root = new BNode(4) { Id = 1, Leaf = false, NumKeys = 1 };
-            root.Keys[0] = new Element(20, 20);
-            root.Kids[0] = 2; // Left child
-            root.Kids[1] = 3; // Right child (Our path for key 45)
+            // 2. Setup tree.
+            var root = new BNode(4, false).WithId(1).WithKeys(20).WithChildren(2, 3);
+            var internalNode = new BNode(4, false).WithId(3).WithKeys(40).WithChildren(4, 5);  
+            var leafNode = new BNode(4, true).WithId(5).WithKeys(40, 50); 
 
-            // Intermediate Node (Internal)
-            var internalNode = new BNode(4) { Id = 3, Leaf = false, NumKeys = 1 };
-            internalNode.Keys[0] = new Element(40, 40);
-            internalNode.Kids[0] = 4; // Left child
-            internalNode.Kids[1] = 5; // Right child (Target leaf)
-
-            // Target Leaf Node
-            var leafNode = new BNode(4) { Id = 5, Leaf = true, NumKeys = 2 };
-            leafNode.Keys[0] = new Element(40, 40);
-            leafNode.Keys[1] = new Element(50, 50);
-
-            // 2. Mock DiskRead behavior
-            // (Replace this with your specific mocking tool syntax, e.g., Moq)
+            // 3. Mock DiskRead behavior.
             MockDiskWrite(1, root);
             MockDiskWrite(3, internalNode);
             MockDiskWrite(5, leafNode);
 
-            // 3. Search for key 45
+            // 4. Search for key 45
             // 45 is > 20 (goes to ID 3) and > 40 (goes to ID 5)
             BNode result = FindLeaf(1, 45);
             Assert.IsNotNull(result);

@@ -1,4 +1,7 @@
-﻿namespace ArcOne
+﻿using System.Collections;
+using System.Reflection.PortableExecutable;
+
+namespace ArcOne
 {
     public static class Util
     {
@@ -109,6 +112,72 @@
             return false;
         }
 
+        /// <summary>
+        /// Enumerate prime numbers up to a maximum value.  
+        /// </summary>
+        public static IEnumerable<int> GetPrimes(int max)
+        {
+            if (max < 0) throw new ArgumentOutOfRangeException(nameof(max));
+
+            var primes = new BitArray(max + 1, true); // Initialize all to true
+
+            // 0 and 1 are not primes
+            if (max >= 0) primes[0] = false;
+            if (max >= 1) primes[1] = false;
+
+            // Sieve logic: for each number starting from 2
+            for (var i = 2; i * i <= max; i++)
+            {
+                if (!primes[i]) continue; // Skip if already marked as composite
+
+                // Mark all multiples of i (starting from i*i) as composite
+                for (var j = i * i; j <= max; j += i)
+                {
+                    primes[j] = false;
+                }
+            }
+
+            // Yield all numbers still marked as prime
+            for (var i = 2; i <= max; i++)
+            {
+                if (primes[i]) yield return i;
+            }
+        }
+
+        /// <summary>
+        /// Get a list of prime numbers.
+        /// </summary>
+        public static List<int> GetPrimesList(int max)
+        {
+            return GetPrimes(max).ToList();
+        }
+
+        /// <summary>
+        /// Write prime numbers to a text file.
+        /// </summary>
+        public static void WritePrimesToFile(string path)
+        {
+            const int MaxPrime = 104729; 
+            var list = GetPrimesList(MaxPrime);
+
+            File.Delete(path);
+            using (StreamWriter sw = new StreamWriter(path, false))
+            {
+                int lineNo = 0;
+                foreach (int prime in list)
+                {
+                    ++lineNo;
+                    sw.WriteLine($"{lineNo}, {prime}");
+                }
+            }
+        }
+
+        public static long GetFileLength(string path)
+        {
+            if (File.Exists(path))
+               return new FileInfo(path).Length;
+            return 0;
+        }
 
     }
 }
