@@ -33,9 +33,9 @@ namespace UnitTestOne
         }
 
         // <summary>
-        /// Loads a specific number of prime elements from the persistent test file.
+        /// Read elements from the a file.
         /// </summary>
-        public static List<Element> ReadPrimesFromFile(string path, int count)
+        public static List<Element> ReadElementsFromFile(string path, int count)
         {
             List<Element> list = new List<Element>(count);
             foreach (string line in File.ReadLines(path))
@@ -47,9 +47,9 @@ namespace UnitTestOne
                 if (part.Length >= 2)
                 {
                     int.TryParse(part[0], out int id);
-                    int.TryParse(part[1], out int prime);
-                    if (id > 0 && prime > 0)
-                        list.Add(new Element(id, prime));
+                    int.TryParse(part[1], out int data);
+                    if (id > 0 && data > 0)
+                        list.Add(new Element(id, data));
                 }
             }
             return list;

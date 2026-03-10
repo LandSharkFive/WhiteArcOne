@@ -55,7 +55,7 @@ namespace UnitTestTen
 
             // 1. Generate sorted data
             string primePath = "prime.txt";
-            var data = TestHelper.ReadPrimesFromFile(primePath, count); 
+            var data = TestHelper.ReadElementsFromFile(primePath, count); 
 
             // 2. Run Bulk Loader.  Default Capacity (80%).
             var builder = new TreeBuilder(order);
