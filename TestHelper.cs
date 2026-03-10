@@ -35,11 +35,10 @@ namespace UnitTestOne
         // <summary>
         /// Loads a specific number of prime elements from the persistent test file.
         /// </summary>
-        public static List<Element> GetPrimeTestData(int count)
+        public static List<Element> ReadPrimesFromFile(string path, int count)
         {
             List<Element> list = new List<Element>(count);
-            string primePath = "prime.txt";
-            foreach (string line in File.ReadLines(primePath))
+            foreach (string line in File.ReadLines(path))
             {
                 // 2. Stop as soon as we have what we needed.
                 if (list.Count >= count) break;
