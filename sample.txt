@@ -1,0 +1,172 @@
+Select a test:
+10
+--- Initializing B+ Tree ---
+
+Inserting 10...
+
+--- Level 0 ---
+[LEAF] P0: [10]  -> Next: null |
+
+Inserting 20...
+
+--- Level 0 ---
+[LEAF] P0: [10, 20]  -> Next: null |
+
+Inserting 30...
+
+--- Level 0 ---
+[LEAF] P0: [10, 20, 30]  -> Next: null |
+
+Inserting 40...
+
+--- Level 0 ---
+[LEAF] P0: [10, 20, 30, 40]  -> Next: null |
+
+Inserting 50...
+
+--- Level 0 ---
+[INT] P1: [30]  |
+
+--- Level 1 ---
+[LEAF] P0: [10, 20]  -> Next: P2 | [LEAF] P2: [30, 40, 50]  -> Next: null |
+
+Inserting 25...
+
+--- Level 0 ---
+[INT] P1: [30]  |
+
+--- Level 1 ---
+[LEAF] P0: [10, 20, 25]  -> Next: P2 | [LEAF] P2: [30, 40, 50]  -> Next: null |
+Key Count: 6
+Keys: 10 20 25 30 40 50
+
+
+--- Testing TrySearch ---
+Success: Found 30 with value: 30
+
+--- Leaf Chain Scan ---
+P0[[10, 20, 25] ] -> P2[[30, 40, 50] ] -> NULL
+--- Starting 100 Item Sequential Test ---
+Insertion Complete.
+Key Count: 100
+Keys: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
+61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100
+
+
+--- Level 0 ---
+[INT] P10: [21, 41, 61, 81]  |
+
+--- Level 1 ---
+[INT] P1: [5, 9, 13, 17]  | [INT] P11: [25, 29, 33, 37]  | [INT] P17: [45, 49, 53, 57]  | [INT] P23: [65, 69, 73, 77]  | [INT] P29: [85, 89, 93]  |
+
+--- Level 2 ---
+[LEAF] P0: [1, 2, 3, 4]  -> Next: P2 | [LEAF] P2: [5, 6, 7, 8]  -> Next: P3 | [LEAF] P3: [9, 10, 11, 12]  -> Next: P4 | [LEAF] P4: [13, 14, 15, 16]  -> Next: P5 | [LEAF] P5: [17, 18, 19, 20]  -> Next: P6 | [LEAF] P6: [21, 22, 23, 24]  -> Next: P7 | [LEAF] P7: [25, 26, 27, 28]  -> Next: P8 | [LEAF] P8: [29, 30, 31, 32]  -> Next: P9 | [LEAF] P9: [33, 34, 35, 36]  -> Next: P12 | [LEAF] P12: [37, 38, 39, 40]  -> Next: P13 | [LEAF] P13: [41, 42, 43, 44]  -> Next: P14 | [LEAF] P14: [45, 46, 47, 48]  -> Next: P15 | [LEAF] P15: [49, 50, 51, 52]  -> Next: P16 | [LEAF] P16: [53, 54, 55, 56]  -> Next: P18 | [LEAF] P18: [57, 58, 59, 60]  -> Next: P19 | [LEAF] P19: [61, 62, 63, 64]  -> Next: P20 | [LEAF] P20: [65, 66, 67, 68]  -> Next: P21 | [LEAF] P21: [69, 70, 71, 72]  -> Next: P22 | [LEAF] P22: [73, 74, 75, 76]  -> Next: P24 | [LEAF] P24: [77, 78, 79, 80]  -> Next: P25 | [LEAF] P25: [81, 82, 83, 84]  -> Next: P26 | [LEAF] P26: [85, 86, 87, 88]  -> Next: P27 | [LEAF] P27: [89, 90, 91, 92]  -> Next: P28 | [LEAF] P28: [93, 94, 95, 96, 97, 98, 99, 100]  -> Next: null |
+--- POINTER INTEGRITY CHECK ---
+RootId: 10
+Internal Node 1 [Keys: 4]: Kid[0]->Page 0 | Kid[1]->Page 2 | Kid[2]->Page 3 | Kid[3]->Page 4 | Kid[4]->Page 5 |
+Internal Node 10 [Keys: 4]: Kid[0]->Page 1 | Kid[1]->Page 11 | Kid[2]->Page 17 | Kid[3]->Page 23 | Kid[4]->Page 29 |
+Internal Node 11 [Keys: 4]: Kid[0]->Page 6 | Kid[1]->Page 7 | Kid[2]->Page 8 | Kid[3]->Page 9 | Kid[4]->Page 12 |
+Internal Node 17 [Keys: 4]: Kid[0]->Page 13 | Kid[1]->Page 14 | Kid[2]->Page 15 | Kid[3]->Page 16 | Kid[4]->Page 18 |
+Internal Node 23 [Keys: 4]: Kid[0]->Page 19 | Kid[1]->Page 20 | Kid[2]->Page 21 | Kid[3]->Page 22 | Kid[4]->Page 24 |
+Internal Node 29 [Keys: 3]: Kid[0]->Page 25 | Kid[1]->Page 26 | Kid[2]->Page 27 | Kid[3]->Page 28 |
+--- PHYSICAL DISK DUMP ---
+RootId: 10, Total Nodes: 30
+Page 0: [1, 2, 3, 4] (Leaf: True)
+Page 1: [5, 9, 13, 17] (Leaf: False)
+Page 2: [5, 6, 7, 8] (Leaf: True)
+Page 3: [9, 10, 11, 12] (Leaf: True)
+Page 4: [13, 14, 15, 16] (Leaf: True)
+Page 5: [17, 18, 19, 20] (Leaf: True)
+Page 6: [21, 22, 23, 24] (Leaf: True)
+Page 7: [25, 26, 27, 28] (Leaf: True)
+Page 8: [29, 30, 31, 32] (Leaf: True)
+Page 9: [33, 34, 35, 36] (Leaf: True)
+Page 10: [21, 41, 61, 81] (Leaf: False)
+Page 11: [25, 29, 33, 37] (Leaf: False)
+Page 12: [37, 38, 39, 40] (Leaf: True)
+Page 13: [41, 42, 43, 44] (Leaf: True)
+Page 14: [45, 46, 47, 48] (Leaf: True)
+Page 15: [49, 50, 51, 52] (Leaf: True)
+Page 16: [53, 54, 55, 56] (Leaf: True)
+Page 17: [45, 49, 53, 57] (Leaf: False)
+Page 18: [57, 58, 59, 60] (Leaf: True)
+Page 19: [61, 62, 63, 64] (Leaf: True)
+Page 20: [65, 66, 67, 68] (Leaf: True)
+Page 21: [69, 70, 71, 72] (Leaf: True)
+Page 22: [73, 74, 75, 76] (Leaf: True)
+Page 23: [65, 69, 73, 77] (Leaf: False)
+Page 24: [77, 78, 79, 80] (Leaf: True)
+Page 25: [81, 82, 83, 84] (Leaf: True)
+Page 26: [85, 86, 87, 88] (Leaf: True)
+Page 27: [89, 90, 91, 92] (Leaf: True)
+Page 28: [93, 94, 95, 96, 97, 98, 99, 100] (Leaf: True)
+Page 29: [85, 89, 93] (Leaf: False)
+Search Check: OK (Found 50)
+--- B-Tree Health Report ---
+Height: 3
+Reachable Nodes: 30
+Total Keys: 123
+Average Node Density: 58.57%
+Zombies (Unreachable Nodes): 0
+Ghosts (Dangling Pointers): 0
+Horizontal Count: 100
+--- Starting Item Random Insertion Test ---
+Insertion Complete.
+Key Count: 100
+Keys: 94 239 258 263 308 425 467 590 697 996 1071 1093 1208 1277 1519 1788 1927 1959 2032 2175
+2358 2360 2522 2607 2814 2870 2988 3104 3121 3143 3144 3150 3186 3207 3232 3240 3275 3382 3490 3548
+3572 3627 3730 3785 3869 3943 4020 4051 4175 4194 4257 4273 4421 4446 4466 4530 4596 4702 4721 4751
+4781 5011 5124 5372 5495 5640 5931 6177 6361 6375 6463 6470 6530 6750 6779 7118 7186 7195 7465 7568
+7633 7634 7780 7849 7856 7904 8104 8327 8337 8603 8756 8848 9001 9005 9365 9399 9501 9722 9869 9945
+
+
+--- Level 0 ---
+[INT] P10: [3548, 4781]  |
+
+--- Level 1 ---
+[INT] P1: [425, 1071, 1927, 2522, 3104, 3186]  | [INT] P18: [3785, 4175, 4446]  | [INT] P11: [5495, 6375, 7118, 7568, 7856, 8337, 9005]  |
+
+--- Level 2 ---
+[LEAF] P0: [94, 239, 258, 263, 308]  -> Next: P19 | [LEAF] P19: [425, 467, 590, 697, 996]  -> Next: P12 | [LEAF] P12: [1071, 1093, 1208, 1277, 1519, 1788]  -> Next: P15 | [LEAF] P15: [1927, 1959, 2032, 2175, 2358, 2360]  -> Next: P6 | [LEAF] P6: [2522, 2607, 2814, 2870, 2988]  -> Next: P22 | [LEAF] P22: [3104, 3121, 3143, 3144, 3150]  -> Next: P14 | [LEAF] P14: [3186, 3207, 3232, 3240, 3275, 3382, 3490]  -> Next: P4 | [LEAF] P4: [3548, 3572, 3627, 3730]  -> Next: P9 | [LEAF] P9: [3785, 3869, 3943, 4020, 4051]  -> Next: P17 | [LEAF] P17: [4175, 4194, 4257, 4273, 4421]  -> Next: P3 | [LEAF] P3: [4446, 4466, 4530, 4596, 4702, 4721, 4751]  -> Next: P8 | [LEAF] P8: [4781, 5011, 5124, 5372]  -> Next: P20 | [LEAF] P20: [5495, 5640, 5931, 6177, 6361]  -> Next: P7 | [LEAF] P7: [6375, 6463, 6470, 6530, 6750, 6779]  -> Next: P2 | [LEAF] P2: [7118, 7186, 7195, 7465]  -> Next: P13 | [LEAF] P13: [7568, 7633, 7634, 7780, 7849]  -> Next: P5 | [LEAF] P5: [7856, 7904, 8104, 8327]  -> Next: P21 | [LEAF] P21: [8337, 8603, 8756, 8848, 9001]  -> Next: P16 | [LEAF] P16: [9005, 9365, 9399, 9501, 9722, 9869, 9945]  -> Next: null |
+--- POINTER INTEGRITY CHECK ---
+RootId: 10
+Internal Node 1 [Keys: 6]: Kid[0]->Page 0 | Kid[1]->Page 19 | Kid[2]->Page 12 | Kid[3]->Page 15 | Kid[4]->Page 6 | Kid[5]->Page 22 | Kid[6]->Page 14 |
+Internal Node 10 [Keys: 2]: Kid[0]->Page 1 | Kid[1]->Page 18 | Kid[2]->Page 11 |
+Internal Node 11 [Keys: 7]: Kid[0]->Page 8 | Kid[1]->Page 20 | Kid[2]->Page 7 | Kid[3]->Page 2 | Kid[4]->Page 13 | Kid[5]->Page 5 | Kid[6]->Page 21 | Kid[7]->Page 16 |
+Internal Node 18 [Keys: 3]: Kid[0]->Page 4 | Kid[1]->Page 9 | Kid[2]->Page 17 | Kid[3]->Page 3 |
+--- PHYSICAL DISK DUMP ---
+RootId: 10, Total Nodes: 23
+Page 0: [94, 239, 258, 263, 308] (Leaf: True)
+Page 1: [425, 1071, 1927, 2522, 3104, 3186] (Leaf: False)
+Page 2: [7118, 7186, 7195, 7465] (Leaf: True)
+Page 3: [4446, 4466, 4530, 4596, 4702, 4721, 4751] (Leaf: True)
+Page 4: [3548, 3572, 3627, 3730] (Leaf: True)
+Page 5: [7856, 7904, 8104, 8327] (Leaf: True)
+Page 6: [2522, 2607, 2814, 2870, 2988] (Leaf: True)
+Page 7: [6375, 6463, 6470, 6530, 6750, 6779] (Leaf: True)
+Page 8: [4781, 5011, 5124, 5372] (Leaf: True)
+Page 9: [3785, 3869, 3943, 4020, 4051] (Leaf: True)
+Page 10: [3548, 4781] (Leaf: False)
+Page 11: [5495, 6375, 7118, 7568, 7856, 8337, 9005] (Leaf: False)
+Page 12: [1071, 1093, 1208, 1277, 1519, 1788] (Leaf: True)
+Page 13: [7568, 7633, 7634, 7780, 7849] (Leaf: True)
+Page 14: [3186, 3207, 3232, 3240, 3275, 3382, 3490] (Leaf: True)
+Page 15: [1927, 1959, 2032, 2175, 2358, 2360] (Leaf: True)
+Page 16: [9005, 9365, 9399, 9501, 9722, 9869, 9945] (Leaf: True)
+Page 17: [4175, 4194, 4257, 4273, 4421] (Leaf: True)
+Page 18: [3785, 4175, 4446] (Leaf: False)
+Page 19: [425, 467, 590, 697, 996] (Leaf: True)
+Page 20: [5495, 5640, 5931, 6177, 6361] (Leaf: True)
+Page 21: [8337, 8603, 8756, 8848, 9001] (Leaf: True)
+Page 22: [3104, 3121, 3143, 3144, 3150] (Leaf: True)
+--- B-Tree Health Report ---
+Height: 3
+Reachable Nodes: 23
+Total Keys: 118
+Average Node Density: 73.29%
+Zombies (Unreachable Nodes): 0
+Ghosts (Dangling Pointers): 0
+Horizontal Count: 100
